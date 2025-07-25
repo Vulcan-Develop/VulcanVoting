@@ -1,0 +1,4 @@
+name: VulcanVoting
+version: '${project.version}'
+main: net.vulcandev.vulcanvoting.VulcanVoting
+api-version: '1.20'
