@@ -1,4 +1,13 @@
-name: VulcanVoting
-version: '${project.version}'
-main: net.vulcandev.vulcanvoting.VulcanVoting
-api-version: '1.20'
+name: ${project.artifactId}
+main: ${project.groupId}.${project.artifactId}
+version: ${project.version}
+authors: [OfficialGaming]
+depend:
+  - Votifier
+commands:
+  fakevote:
+    description: process fake vote
+    aliases: [vulcanfakevote]
+  vote:
+    description: vote cmd
+    aliases: [vulcanvote]
