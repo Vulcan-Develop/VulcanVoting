@@ -31,12 +31,13 @@ public class VotifierListener implements Listener {
             OfflinePlayer offlinePlayer = Utils.getOfflinePlayer(vote.getUsername());
 
             if (offlinePlayer == null || !offlinePlayer.hasPlayedBefore()) {
+                System.out.println("Voting debug: offlinePlayer is null or has not played before.");
                 return;
             }
 
             UUID uuid = offlinePlayer.getUniqueId();
             if(plugin.getVPlayerManager().isOnCooldown(uuid, vote.getServiceName(), cooldownMillis)) {
-                Debugger.debug("Vote ignored due to service cooldown for " + vote.getUsername() + " on " + vote.getServiceName());
+                System.out.println("Voting debug: ignored due to service cooldown for " + vote.getUsername() + " on " + vote.getServiceName());
                 return;
             }
 
@@ -51,9 +52,7 @@ public class VotifierListener implements Listener {
             plugin.getVPlayerManager().processVoteRequest(vote.getUsername(), fakeVote, offlinePlayer.isOnline(), vote.getServiceName());
             plugin.getVPlayerManager().applyServiceCooldown(uuid, vote.getServiceName());
 
-            Debugger.debug("Service: " + vote.getServiceName());
-            Debugger.debug("Address: " + vote.getAddress());
-            Debugger.debug("Username: " + vote.getUsername());
+            System.out.println("Voting debug: " + vote.getUsername() + " voted for " + vote.getServiceName() + "at address " + vote.getAddress());
         });
     }
 

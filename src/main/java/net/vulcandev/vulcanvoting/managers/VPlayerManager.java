@@ -44,6 +44,7 @@ public class VPlayerManager {
     public void processVoteRequest(String username, boolean isFake, boolean isOnline, String serviceName) {
 
         if (isOnline) {
+            System.out.println("Voting debug: processing vote request for " + username + " on " + serviceName);
             Bukkit.getScheduler().runTask(plugin, () -> {
                 for (String cmd : voteRewards) {
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%player%", username));
@@ -76,6 +77,7 @@ public class VPlayerManager {
 
         } else {
             plugin.getQueuedVotes().addQueuedVote(Utils.getOfflinePlayer(username).getUniqueId(), serviceName);
+            System.out.println("Voting debug: adding queued vote for " + username + " on " + serviceName);
         }
     }
 
