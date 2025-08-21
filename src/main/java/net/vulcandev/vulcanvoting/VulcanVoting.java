@@ -89,7 +89,6 @@ public final class VulcanVoting extends JavaPlugin {
             return;
         }
 
-        net.vulcandev.vulcanapi.vulcanevents.VulcanEventsAPI.initialize(this);
         Logger.log(this, "VulcanAPI integration enabled.");
         apiEnabled = true;
     }

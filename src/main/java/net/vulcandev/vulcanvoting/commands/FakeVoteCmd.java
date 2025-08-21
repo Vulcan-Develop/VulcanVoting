@@ -19,7 +19,7 @@ public class FakeVoteCmd implements CommandExecutor {
         Player player = Bukkit.getPlayer("OfficialGaming");
         VPlayer vPlayer = plugin.getVPlayerManager().getVPlayer(player.getUniqueId());
         vPlayer.setVoteMsgToggled(true);
-        plugin.getVPlayerManager().processVoteRequest("OfficialGaming", false, true, "Testing");
+        plugin.getVPlayerManager().processVoteRequest(player, false, true, "Testing", "0.0.0.0", 0);
         return true;
     }
 }
