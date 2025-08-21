@@ -7,6 +7,7 @@ import net.xantharddev.vulcanlib.libs.Colour;
 import net.xantharddev.vulcanlib.libs.DataUtils;
 import net.xantharddev.vulcanlib.libs.Utils;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -41,29 +42,33 @@ public class VPlayerManager {
         loadServiceCooldowns();
     }
 
-    public void processVoteRequest(String username, boolean isFake, boolean isOnline, String serviceName) {
+    public void processVoteRequest(OfflinePlayer player, boolean isFake, boolean isOnline, String serviceName, String address, long timeStamp) {
 
-        if (isOnline) {
-            System.out.println("Voting debug: processing vote request for " + username + " on " + serviceName);
+        if (player.isOnline()) {
+            System.out.println("Voting debug: processing vote request for " + player.getName() + " on " + serviceName);
             Bukkit.getScheduler().runTask(plugin, () -> {
                 for (String cmd : voteRewards) {
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%player%", username));
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%player%", player.getName()));
                 }
 
-                Player votedPlayer = Bukkit.getPlayer(username);
+                Player votedPlayer = player.getPlayer();
                 for(String msg : playerMsg) {
-                    votedPlayer.sendMessage(Colour.colour(msg.replace("%player%", username)));
+                    votedPlayer.sendMessage(Colour.colour(msg.replace("%player%", player.getName())));
                 }
 
-                for(Player player : Bukkit.getOnlinePlayers()) {
-                    UUID uuid = player.getUniqueId();
+                for(Player p : Bukkit.getOnlinePlayers()) {
+                    UUID uuid = p.getUniqueId();
                     if(uuid.equals(votedPlayer.getUniqueId())) continue;
                     VPlayer vPlayer = plugin.getVPlayerManager().getVPlayer(uuid);
                     if(vPlayer.isVoteMsgToggled()) {
                         for(String msg : playerAllMsg) {
-                            player.sendMessage(Colour.colour(msg.replace("%player%", username)));
+                            p.sendMessage(Colour.colour(msg.replace("%player%", player.getName())));
                         }
                     }
+                }
+
+                if(plugin.isApiEnabled()) {
+                    Bukkit.getPluginManager().callEvent(new net.vulcandev.vulcanapi.vulcanvoting.PlayerVoteEvent(votedPlayer, serviceName, votedPlayer.getName(), address, timeStamp));
                 }
             });
 
@@ -76,8 +81,8 @@ public class VPlayerManager {
             }
 
         } else {
-            plugin.getQueuedVotes().addQueuedVote(Utils.getOfflinePlayer(username).getUniqueId(), serviceName);
-            System.out.println("Voting debug: adding queued vote for " + username + " on " + serviceName);
+            plugin.getQueuedVotes().addQueuedVote(player.getUniqueId(), serviceName);
+            System.out.println("Voting debug: adding queued vote for " + player.getName() + " on " + serviceName);
         }
     }
 

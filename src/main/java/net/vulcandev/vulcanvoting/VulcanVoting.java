@@ -30,6 +30,8 @@ public final class VulcanVoting extends JavaPlugin {
 
     private YamlDocument conf;
     private String licenseKey;
+    @Getter
+    private boolean apiEnabled = false;
 
     public static VulcanVoting get() { return instance; }
     public YamlDocument getConf() { return conf; }
@@ -76,6 +78,20 @@ public final class VulcanVoting extends JavaPlugin {
 
     private void setupIntegrations() {
         setupPlaceholderAPI();
+        initializeAPI();
+    }
+
+    private void initializeAPI() {
+        Plugin plugin = Bukkit.getPluginManager().getPlugin("VulcanAPI");
+        if (plugin == null || !plugin.isEnabled()) {
+            Logger.log(this, "&cFailed to initialize VulcanAPI, please put the API on your server if you wish to use it.");
+            Logger.log(this, "&cDisabling API integration...");
+            return;
+        }
+
+        net.vulcandev.vulcanapi.vulcanevents.VulcanEventsAPI.initialize(this);
+        Logger.log(this, "VulcanAPI integration enabled.");
+        apiEnabled = true;
     }
 
     private void setupPlaceholderAPI() {

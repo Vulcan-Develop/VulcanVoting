@@ -4,7 +4,6 @@ import com.vexsoftware.votifier.model.Vote;
 import com.vexsoftware.votifier.model.VotifierEvent;
 import net.vulcandev.vulcanvoting.VulcanVoting;
 import net.vulcandev.vulcanvoting.objects.VPlayer;
-import net.xantharddev.vulcanlib.Debugger;
 import net.xantharddev.vulcanlib.libs.Pair;
 import net.xantharddev.vulcanlib.libs.Utils;
 import org.bukkit.Bukkit;
@@ -49,7 +48,7 @@ public class VotifierListener implements Listener {
                 vPlayer.addTotalVote();
             }
 
-            plugin.getVPlayerManager().processVoteRequest(vote.getUsername(), fakeVote, offlinePlayer.isOnline(), vote.getServiceName());
+            plugin.getVPlayerManager().processVoteRequest(offlinePlayer, fakeVote, offlinePlayer.isOnline(), vote.getServiceName(), vote.getAddress(), Long.parseLong(vote.getTimeStamp()));
             plugin.getVPlayerManager().applyServiceCooldown(uuid, vote.getServiceName());
 
             System.out.println("Voting debug: " + vote.getUsername() + " voted for " + vote.getServiceName() + "at address " + vote.getAddress());
@@ -63,8 +62,9 @@ public class VotifierListener implements Listener {
             Pair<String, Long> queuedVote = plugin.getQueuedVotes().getQueuedVote(player.getUniqueId());
             if(queuedVote == null) return;
             String serviceName = queuedVote.getLeft();
+            String address = "";
             Long voteTime = queuedVote.getRight();
-            plugin.getVPlayerManager().processVoteRequest(player.getName(), false, true, serviceName);
+            plugin.getVPlayerManager().processVoteRequest(Utils.getOfflinePlayer(player.getName()), false, true, serviceName, address, voteTime);
         }
     }
 }
