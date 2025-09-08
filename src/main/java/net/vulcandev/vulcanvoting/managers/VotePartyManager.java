@@ -52,9 +52,11 @@ public class VotePartyManager {
                 OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
                 if (!offlinePlayer.isOnline()) return;
                 if (vPlayer.getTotalVotes() == 0) return;
-                for (String cmd : rewards) {
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%player%", offlinePlayer.getName()));
-                }
+                Bukkit.getScheduler().runTask(plugin, () -> {
+                    for (String cmd : rewards) {
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replace("%player%", offlinePlayer.getName()));
+                    }
+                });
             });
         });
     }
