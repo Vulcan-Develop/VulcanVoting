@@ -116,7 +116,7 @@ This project is licensed under the GNU General Public License v3.0 - see the [LI
 
 ## Credits
 
-- **Author**: OfficialGaming
+- **Authors**: OfficialGaming, Xanthard_
 - **Version**: 1.0
 - **Dependencies**: NuVotifier, PlaceholderAPI, VulcanLib, VulcanAPI
 
