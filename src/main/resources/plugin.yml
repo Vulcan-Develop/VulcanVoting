@@ -5,9 +5,6 @@ authors: [OfficialGaming]
 depend:
   - Votifier
 commands:
-  fakevote:
-    description: process fake vote
-    aliases: [vulcanfakevote]
   vote:
     description: vote cmd
     aliases: [vulcanvote]

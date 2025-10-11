@@ -2,7 +2,6 @@ package net.vulcandev.vulcanvoting;
 
 import lombok.Getter;
 import me.plugin.libs.YamlDocument;
-import net.vulcandev.vulcanvoting.commands.FakeVoteCmd;
 import net.vulcandev.vulcanvoting.commands.VoteCmd;
 import net.vulcandev.vulcanvoting.listeners.VotifierListener;
 import net.vulcandev.vulcanvoting.managers.QueuedVotes;
@@ -12,30 +11,54 @@ import net.vulcandev.vulcanvoting.placeholders.VotingPlaceHolders;
 import net.xantharddev.vulcanlib.ConfigFile;
 import net.xantharddev.vulcanlib.Logger;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 
+/**
+ * Main plugin class for VulcanVoting.
+ * Manages voting functionality including vote rewards, vote parties, and player vote tracking.
+ */
 public final class VulcanVoting extends JavaPlugin {
     private static VulcanVoting instance;
+
     @Getter
     private VotePartyManager votePartyManager;
+
     @Getter
     private VPlayerManager vPlayerManager;
+
     @Getter
     private QueuedVotes queuedVotes;
 
     private YamlDocument conf;
-    private String licenseKey;
+
     @Getter
     private boolean apiEnabled = false;
 
-    public static VulcanVoting get() { return instance; }
-    public YamlDocument getConf() { return conf; }
+    /**
+     * Gets the plugin instance.
+     *
+     * @return the VulcanVoting instance
+     */
+    public static VulcanVoting get() {
+        return instance;
+    }
 
+    /**
+     * Gets the plugin configuration.
+     *
+     * @return the configuration document
+     */
+    public YamlDocument getConf() {
+        return conf;
+    }
+
+    /**
+     * Called when the plugin is enabled.
+     * Initializes managers, loads configuration, and sets up integrations.
+     */
     @Override
     public void onEnable() {
         instance = this;
@@ -56,6 +79,10 @@ public final class VulcanVoting extends JavaPlugin {
         setupIntegrations();
     }
 
+    /**
+     * Called when the plugin is disabled.
+     * Saves all data to disk synchronously.
+     */
     @Override
     public void onDisable() {
         vPlayerManager.saveVPlayers(false);
@@ -64,23 +91,32 @@ public final class VulcanVoting extends JavaPlugin {
         queuedVotes.saveQueuedVotes(false);
     }
 
-
-
+    /**
+     * Registers event listeners for the plugin.
+     */
     private void registerListeners() {
         Bukkit.getPluginManager().registerEvents(new VotifierListener(this), this);
     }
 
+    /**
+     * Registers commands for the plugin.
+     */
     private void registerCommands() {
-        getCommand("fakevote").setExecutor(new FakeVoteCmd(this));
         getCommand("vote").setExecutor(new VoteCmd(this));
     }
 
-
+    /**
+     * Sets up third-party plugin integrations.
+     */
     private void setupIntegrations() {
         setupPlaceholderAPI();
         initializeAPI();
     }
 
+    /**
+     * Initializes VulcanAPI integration if available.
+     * Sets the apiEnabled flag to true if successful.
+     */
     private void initializeAPI() {
         Plugin plugin = Bukkit.getPluginManager().getPlugin("VulcanAPI");
         if (plugin == null || !plugin.isEnabled()) {
@@ -93,21 +129,14 @@ public final class VulcanVoting extends JavaPlugin {
         apiEnabled = true;
     }
 
+    /**
+     * Sets up PlaceholderAPI integration if available.
+     * Registers the VotingPlaceHolders expansion.
+     */
     private void setupPlaceholderAPI() {
         Plugin placeholderAPI = Bukkit.getPluginManager().getPlugin("PlaceholderAPI");
         if (placeholderAPI != null && placeholderAPI.isEnabled()) {
             new VotingPlaceHolders(this).register();
         }
-    }
-
-    private void loadLicenseConfig() {
-        File licenseFile = new File(getDataFolder(), "license.yml");
-
-        if (!licenseFile.exists()) {
-            saveResource("license.yml", false);
-        }
-
-        FileConfiguration licenseConfig = YamlConfiguration.loadConfiguration(licenseFile);
-        licenseKey = licenseConfig.getString("licenseKey");
     }
 }
