@@ -4,6 +4,7 @@ version: ${project.version}
 authors: [OfficialGaming]
 depend:
   - Votifier
+  - VulcanLib
 commands:
   vote:
     description: vote cmd
