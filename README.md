@@ -1,6 +1,6 @@
 # VulcanVoting
 
-A comprehensive Minecraft voting plugin that rewards players for voting on server lists. Features vote rewards, vote parties, queued votes for offline players, and PlaceholderAPI integration.
+A Minecraft voting plugin that rewards players for voting on server lists. Features vote rewards, vote parties, queued votes for offline players, and PlaceholderAPI integration.
 
 ## Features
 
@@ -15,11 +15,8 @@ A comprehensive Minecraft voting plugin that rewards players for voting on serve
 
 ## Requirements
 
-- Java 8 or higher
-- Spigot/Paper 1.8+
-- [NuVotifier](https://github.com/NuVotifier/NuVotifier) 2.7.2+
-- [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/) 2.11.5+
-- [VulcanAPI](https://github.com/VulcanDev) 2.7+
+- [NuVotifier](https://github.com/NuVotifier/NuVotifier)
+- [VulcanAPI](https://github.com/VulcanDev)
 
 ## Installation
 
@@ -97,7 +94,7 @@ mvn clean install
 3. The compiled jar will be in the `target` folder
 
 **Note**: You'll need to provide the following dependencies locally:
-- WineSpigot.jar
+- WineSpigot.jar (Or just normal spigot 1.8+)
 - VulcanLib.jar
 - nuvotifier-2.7.2.jar
 - VulcanAPI.jar
@@ -108,25 +105,4 @@ Place these in `C:/Development/libs/` or update the paths in `pom.xml`.
 
 If you encounter any issues or have suggestions:
 - Open an issue on GitHub
-- Contact the developer: OfficialGaming
-
-## License
-
-This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
-
-## Credits
-
-- **Authors**: OfficialGaming, Xanthard_
-- **Version**: 1.0
-- **Dependencies**: NuVotifier, PlaceholderAPI, VulcanLib, VulcanAPI
-
-## Changelog
-
-### Version 1.0
-- Initial release
-- Vote rewards system
-- Vote party functionality
-- Queued votes for offline players
-- Interactive vote GUI
-- PlaceholderAPI integration
-- Service cooldown tracking
+- Developers discord tags: xanthard001 or officialgaming

@@ -68,13 +68,11 @@ public class VPlayerManager {
      * Handles reward distribution, messaging, vote party updates, and queuing for offline players.
      *
      * @param player the player who voted
-     * @param isFake whether this is a fake/test vote
-     * @param isOnline whether the player is currently online
      * @param serviceName the name of the voting service
      * @param address the IP address of the vote
      * @param timeStamp the timestamp of the vote
      */
-    public void processVoteRequest(OfflinePlayer player, boolean isFake, boolean isOnline, String serviceName, String address, long timeStamp) {
+    public void processVoteRequest(OfflinePlayer player, String serviceName, String address, long timeStamp) {
         if (player.isOnline()) {
             // Handle rewards and messages on the main thread
             Bukkit.getScheduler().runTask(plugin, () -> {

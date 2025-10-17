@@ -28,12 +28,6 @@ public class VoteGUI extends GUI<Integer> {
     private final YamlDocument config;
     private final VulcanVoting plugin;
 
-    /**
-     * Constructs a new VoteGUI for the specified player.
-     *
-     * @param plugin the VulcanVoting plugin instance
-     * @param user the player viewing the GUI
-     */
     public VoteGUI(VulcanVoting plugin, Player user) {
         super(user, VulcanVoting.get().getConf().getInt("voteGUI.main.rows"));
         this.plugin = plugin;

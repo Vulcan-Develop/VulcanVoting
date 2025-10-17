@@ -11,7 +11,7 @@ import java.util.UUID;
 /**
  * PlaceholderAPI expansion for VulcanVoting.
  * Provides placeholders for vote statistics and vote party information.
- *
+ * <p>
  * Available placeholders:
  * - %vulcanvoting_totalvotes% - Player's total vote count
  * - %vulcanvoting_voteparty_current% - Current vote party progress

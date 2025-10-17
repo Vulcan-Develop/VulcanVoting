@@ -17,17 +17,10 @@ import java.util.UUID;
  * When a player votes while offline, their vote is queued and processed when they join.
  */
 public class QueuedVotes {
-    private final VulcanVoting plugin;
     private final File queuedVoteFile;
     private final Map<UUID, Pair<String, Long>> queuedVotes = new HashMap<>();
 
-    /**
-     * Constructs a new QueuedVotes manager and loads queued votes.
-     *
-     * @param plugin the VulcanVoting plugin instance
-     */
     public QueuedVotes(VulcanVoting plugin) {
-        this.plugin = plugin;
         this.queuedVoteFile = new File(plugin.getDataFolder(), "data/queuedvotes.json");
         loadQueuedVote();
     }

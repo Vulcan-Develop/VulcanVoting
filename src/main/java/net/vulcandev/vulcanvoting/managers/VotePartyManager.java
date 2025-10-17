@@ -31,11 +31,6 @@ public class VotePartyManager {
     private final File currentAmountFile;
     private final String[] rewards;
 
-    /**
-     * Constructs a new VotePartyManager and loads the current vote count.
-     *
-     * @param plugin the VulcanVoting plugin instance
-     */
     public VotePartyManager(VulcanVoting plugin) {
         this.plugin = plugin;
         this.votepartyAmount = plugin.getConf().getInt("vote-party.amount-needed");

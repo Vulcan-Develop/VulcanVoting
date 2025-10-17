@@ -2,7 +2,7 @@ package net.vulcandev.vulcanvoting;
 
 import lombok.Getter;
 import me.plugin.libs.YamlDocument;
-import net.vulcandev.vulcanvoting.commands.VoteCmd;
+import net.vulcandev.vulcanvoting.guis.VoteGUI;
 import net.vulcandev.vulcanvoting.listeners.VotifierListener;
 import net.vulcandev.vulcanvoting.managers.QueuedVotes;
 import net.vulcandev.vulcanvoting.managers.VPlayerManager;
@@ -10,7 +10,9 @@ import net.vulcandev.vulcanvoting.managers.VotePartyManager;
 import net.vulcandev.vulcanvoting.placeholders.VotingPlaceHolders;
 import net.xantharddev.vulcanlib.ConfigFile;
 import net.xantharddev.vulcanlib.Logger;
+import net.xantharddev.vulcanlib.command.VulcanCommand;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -20,39 +22,17 @@ import java.io.File;
  * Main plugin class for VulcanVoting.
  * Manages voting functionality including vote rewards, vote parties, and player vote tracking.
  */
+@Getter
 public final class VulcanVoting extends JavaPlugin {
     private static VulcanVoting instance;
-
-    @Getter
     private VotePartyManager votePartyManager;
-
-    @Getter
     private VPlayerManager vPlayerManager;
-
-    @Getter
     private QueuedVotes queuedVotes;
-
     private YamlDocument conf;
-
-    @Getter
     private boolean apiEnabled = false;
 
-    /**
-     * Gets the plugin instance.
-     *
-     * @return the VulcanVoting instance
-     */
     public static VulcanVoting get() {
         return instance;
-    }
-
-    /**
-     * Gets the plugin configuration.
-     *
-     * @return the configuration document
-     */
-    public YamlDocument getConf() {
-        return conf;
     }
 
     /**
@@ -75,8 +55,16 @@ public final class VulcanVoting extends JavaPlugin {
         votePartyManager = new VotePartyManager(this);
         queuedVotes = new QueuedVotes(this);
         registerListeners();
-        registerCommands();
         setupIntegrations();
+
+        VulcanCommand.create("vote")
+                .description("Open the vote GUI")
+                .playerOnly()
+                .execute((sender, ctx) -> {
+                    Player player = (Player) sender;
+                    new VoteGUI(this, player).open();
+                })
+                .build().register(this);
     }
 
     /**
@@ -96,13 +84,6 @@ public final class VulcanVoting extends JavaPlugin {
      */
     private void registerListeners() {
         Bukkit.getPluginManager().registerEvents(new VotifierListener(this), this);
-    }
-
-    /**
-     * Registers commands for the plugin.
-     */
-    private void registerCommands() {
-        getCommand("vote").setExecutor(new VoteCmd(this));
     }
 
     /**

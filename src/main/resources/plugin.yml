@@ -5,6 +5,7 @@ authors: [OfficialGaming]
 depend:
   - Votifier
   - VulcanLib
+softdepend: [PlaceholderAPI]
 commands:
   vote:
     description: vote cmd

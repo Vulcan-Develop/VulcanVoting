@@ -23,11 +23,6 @@ public class VotifierListener implements Listener {
     private final VulcanVoting plugin;
     private final long cooldownMillis = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
-    /**
-     * Constructs a new VotifierListener.
-     *
-     * @param plugin the VulcanVoting plugin instance
-     */
     public VotifierListener(VulcanVoting plugin) {
         this.plugin = plugin;
     }
@@ -62,7 +57,7 @@ public class VotifierListener implements Listener {
             }
 
             // Process the vote request
-            plugin.getVPlayerManager().processVoteRequest(offlinePlayer, fakeVote, offlinePlayer.isOnline(), vote.getServiceName(), vote.getAddress(), Long.parseLong(vote.getTimeStamp()));
+            plugin.getVPlayerManager().processVoteRequest(offlinePlayer, vote.getServiceName(), vote.getAddress(), Long.parseLong(vote.getTimeStamp()));
             plugin.getVPlayerManager().applyServiceCooldown(uuid, vote.getServiceName());
         });
     }
@@ -85,7 +80,7 @@ public class VotifierListener implements Listener {
             String serviceName = queuedVote.getLeft();
             String address = "";
             Long voteTime = queuedVote.getRight();
-            plugin.getVPlayerManager().processVoteRequest(Utils.getOfflinePlayer(player.getName()), false, true, serviceName, address, voteTime);
+            plugin.getVPlayerManager().processVoteRequest(Utils.getOfflinePlayer(player.getName()), serviceName, address, voteTime);
         }
     }
 }

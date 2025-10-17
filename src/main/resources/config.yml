@@ -1,6 +1,5 @@
 config-version: 1
 
-
 vote-rewards:
   - "eco give %player% 100000"
   - "crates give %player% common 1"
@@ -12,25 +11,25 @@ vote-party:
     - "crates give %player% legendary 1"
 
 vote-links:
-  - "&6Links for voting below"
-  - "&ehttps://store.mineage.net/vote"
+  - "&fLinks for voting below"
+  - "&fhttps://store.mineage.net/vote"
 
 vote-messages:
   player:
-    - "&6MINEAGE &8| fThanks for voting, &e%player%!"
+    - "&3&lVulcan &8| &fThanks for voting, &b%player%&f!"
     - "&fYou've received:"
     - "&f+ 1x &dRare &fKey"
     - "&f+ &2$&a100,000 &fIn-Game Money"
     - "&f+ &625 &eGold"
-    - "&7Vote daily to earn extra rewards and unlock crates at /warp crates!"
+    - "&fVote daily to earn extra rewards and unlock crates at /warp crates!"
   all-players:
-    - "&6MINEAGE &8| &e%player% &7just voted and claimed their rewards!"
-    - "&7They Won: &a$100,000 &7| &e25 Gold &7| &d1x Rare Key"
-    - "&7Vote now with &e/vote"
+    - "&3&lVulcan &8| &b%player% &fjust voted and claimed their rewards!"
+    - "&fThey Won: &a$100,000 &f| &e25 Gold &f| &d1x Rare Key"
+    - "&fVote now with &e/vote"
 
 voteGUI:
   main:
-    title: "&6Mineage &8| &eVote"
+    title: "&3&lVulcan &8| &fVote"
     rows: 3
     fillers:
       fill1:
@@ -77,7 +76,7 @@ voteGUI:
     damage: 0
     slot: 12
     url: ""
-    name: "&6&lVote Links"
+    name: "&3&lVote Links"
     lore:
       - ''
       - "&fClick to vote!"
@@ -87,27 +86,27 @@ voteGUI:
     damage: 0
     slot: 14
     url: ""
-    name: "&6&lVote Stats"
+    name: "&3&lVote Stats"
     lore:
       - ''
-      - "&fYour total votes: &e%vulcanvoting_totalvotes%"
+      - "&fYour total votes: &b%vulcanvoting_totalvotes%"
 
   voteparty:
     type: NETHER_STAR
     damage: 0
     slot: 16
     url: ""
-    name: "&6&lVote Party"
+    name: "&3&lVote Party"
     lore:
       - ''
-      - "&fVotes until next Vote Party: &e%vulcanvoting_voteparty_current%/%vulcanvoting_voteparty_amount%"
+      - "&fVotes until next Vote Party: &b%vulcanvoting_voteparty_current%&f/&b%vulcanvoting_voteparty_amount%"
 
   toggle:
     type: EMPTY_MAP
     damage: 0
     slot: 10
     url: ""
-    name: "&6&lToggle Vote Msgs"
+    name: "&3&lToggle Vote Msgs"
     lore:
       - ''
-      - "&fClick To toggle &eon/off all player &fvote messages"
+      - "&fClick To toggle &eon/off &fall player vote messages"
