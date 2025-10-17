@@ -20,11 +20,7 @@ A Minecraft voting plugin that rewards players for voting on server lists. Featu
 
 ## Installation
 
-1. Download the latest release of VulcanVoting
-2. Install Dependencies
-3. Place VulcanVoting.jar in your plugins folder
-4. Restart your server
-5. Configure the plugin in `plugins/VulcanVoting/config.yml`
+This plugin is free through the Vulcan Loader found in the client panel [Here](https://vulcandev.net/).
 
 ## Configuration
 
