@@ -2,6 +2,7 @@ package net.vulcandev.vulcanvoting;
 
 import lombok.Getter;
 import me.plugin.libs.YamlDocument;
+import net.vulcandev.vulcanloader.loader.VulcanPlugin;
 import net.vulcandev.vulcanvoting.guis.VoteGUI;
 import net.vulcandev.vulcanvoting.listeners.VotifierListener;
 import net.vulcandev.vulcanvoting.managers.QueuedVotes;
@@ -14,7 +15,6 @@ import net.xantharddev.vulcanlib.command.VulcanCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 
@@ -23,7 +23,7 @@ import java.io.File;
  * Manages voting functionality including vote rewards, vote parties, and player vote tracking.
  */
 @Getter
-public final class VulcanVoting extends JavaPlugin {
+public final class VulcanVoting extends VulcanPlugin {
     private static VulcanVoting instance;
     private VotePartyManager votePartyManager;
     private VPlayerManager vPlayerManager;
@@ -40,7 +40,7 @@ public final class VulcanVoting extends JavaPlugin {
      * Initializes managers, loads configuration, and sets up integrations.
      */
     @Override
-    public void onEnable() {
+    public void onSecureEnable() {
         instance = this;
 
         conf = ConfigFile.createConfig(this, "config.yml");
@@ -72,7 +72,7 @@ public final class VulcanVoting extends JavaPlugin {
      * Saves all data to disk synchronously.
      */
     @Override
-    public void onDisable() {
+    public void onSecureDisable() {
         vPlayerManager.saveVPlayers(false);
         vPlayerManager.saveServiceCooldowns(false);
         votePartyManager.saveCurrentAmount(false);
