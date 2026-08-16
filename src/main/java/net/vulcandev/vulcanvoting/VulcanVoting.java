@@ -116,7 +116,7 @@ public final class VulcanVoting extends VulcanPlugin {
      */
     private void setupPlaceholderAPI() {
         Plugin placeholderAPI = Bukkit.getPluginManager().getPlugin("PlaceholderAPI");
-        if (placeholderAPI != null && placeholderAPI.isEnabled()) {
+        if (placeholderAPI != null) {
             new VotingPlaceHolders(this).register();
         }
     }
