@@ -14,6 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.UUID;
+import net.xantharddev.vulcanlib.async.VulcanTasks;
 
 /**
  * Listener for vote and player join events.
@@ -35,7 +36,7 @@ public class VotifierListener implements Listener {
      */
     @EventHandler
     public void onVotifierEvent(VotifierEvent event) {
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+        VulcanTasks.async(plugin, () -> {
             Vote vote = event.getVote();
             OfflinePlayer offlinePlayer = Utils.getOfflinePlayer(vote.getUsername());
 

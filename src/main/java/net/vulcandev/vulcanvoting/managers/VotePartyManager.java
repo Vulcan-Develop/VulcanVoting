@@ -13,6 +13,7 @@ import java.io.File;
 import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.UUID;
+import net.xantharddev.vulcanlib.async.VulcanTasks;
 
 /**
  * Manages the vote party system.
@@ -68,7 +69,7 @@ public class VotePartyManager {
      * Distributes rewards to all online players who have voted at least once.
      */
     public void handleVoteParty() {
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+        VulcanTasks.async(plugin, () -> {
             Map<UUID, VPlayer> vPlayers = plugin.getVPlayerManager().getVPlayers();
             vPlayers.forEach((uuid, vPlayer) -> {
                 OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
