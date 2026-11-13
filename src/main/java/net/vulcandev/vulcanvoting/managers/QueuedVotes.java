@@ -50,6 +50,10 @@ public class QueuedVotes {
      * @param uuid the player's UUID
      * @param serviceName the name of the voting service
      */
+    public Pair<String, Long> takeQueuedVote(UUID uuid) {
+        return queuedVotes.remove(uuid);
+    }
+
     public void addQueuedVote(UUID uuid, String serviceName) {
         queuedVotes.put(uuid, Pair.of(serviceName.toLowerCase(), System.currentTimeMillis()));
     }
@@ -60,7 +64,7 @@ public class QueuedVotes {
      * @param async whether to save asynchronously
      */
     public void saveQueuedVotes(boolean async) {
-        DataUtils.saveToJson(queuedVoteFile, queuedVotes, async);
+        DataUtils.saveToJson(queuedVoteFile, new HashMap<>(queuedVotes), async);
     }
 
     /**

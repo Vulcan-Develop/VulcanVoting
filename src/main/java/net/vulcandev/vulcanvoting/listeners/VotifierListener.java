@@ -36,31 +36,32 @@ public class VotifierListener implements Listener {
      */
     @EventHandler
     public void onVotifierEvent(VotifierEvent event) {
+        Vote vote = event.getVote();
         VulcanTasks.async(plugin, () -> {
-            Vote vote = event.getVote();
             OfflinePlayer offlinePlayer = Utils.getOfflinePlayer(vote.getUsername());
-
-            // Ignore votes from players who have never joined
             if (offlinePlayer == null || !offlinePlayer.hasPlayedBefore()) return;
-
-            UUID uuid = offlinePlayer.getUniqueId();
-            // Check if player is on cooldown for this voting service
-            if (plugin.getVPlayerManager().isOnCooldown(uuid, vote.getServiceName(), cooldownMillis)) return;
-
-            // Determine if this is a fake/test vote
-            boolean fakeVote = plugin.getVPlayerManager().isFakeVote(vote.getAddress().toLowerCase());
-
-            VPlayer vPlayer = plugin.getVPlayerManager().getVPlayer(uuid);
-
-            // Only increment total votes for real votes
-            if (!fakeVote) {
-                vPlayer.addTotalVote();
-            }
-
-            // Process the vote request
-            plugin.getVPlayerManager().processVoteRequest(offlinePlayer, vote.getServiceName(), vote.getAddress(), Long.parseLong(vote.getTimeStamp()));
-            plugin.getVPlayerManager().applyServiceCooldown(uuid, vote.getServiceName());
+            Bukkit.getScheduler().runTask(plugin, () -> handleVote(offlinePlayer, vote));
         });
+    }
+
+    private void handleVote(OfflinePlayer offlinePlayer, Vote vote) {
+        UUID uuid = offlinePlayer.getUniqueId();
+        // Check if player is on cooldown for this voting service
+        if (plugin.getVPlayerManager().isOnCooldown(uuid, vote.getServiceName(), cooldownMillis)) return;
+
+        // Determine if this is a fake/test vote
+        boolean fakeVote = plugin.getVPlayerManager().isFakeVote(vote.getAddress().toLowerCase());
+
+        VPlayer vPlayer = plugin.getVPlayerManager().getVPlayer(uuid);
+
+        // Only increment total votes for real votes
+        if (!fakeVote) {
+            vPlayer.addTotalVote();
+        }
+
+        // Process the vote request
+        plugin.getVPlayerManager().processVoteRequest(offlinePlayer, vote.getServiceName(), vote.getAddress(), Long.parseLong(vote.getTimeStamp()));
+        plugin.getVPlayerManager().applyServiceCooldown(uuid, vote.getServiceName());
     }
 
     /**
@@ -73,9 +74,9 @@ public class VotifierListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         // Check if this player has any queued votes
-        if (plugin.getQueuedVotes().getQueuedVotes().containsKey(player.getUniqueId())) {
-            Pair<String, Long> queuedVote = plugin.getQueuedVotes().getQueuedVote(player.getUniqueId());
-            if (queuedVote == null) return;
+        Pair<String, Long> queuedVote = plugin.getQueuedVotes().takeQueuedVote(player.getUniqueId());
+        if (queuedVote != null) {
+            plugin.getQueuedVotes().saveQueuedVotes(true);
 
             // Extract vote data and process it
             String serviceName = queuedVote.getLeft();
