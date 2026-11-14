@@ -60,8 +60,18 @@ public class VotifierListener implements Listener {
         }
 
         // Process the vote request
-        plugin.getVPlayerManager().processVoteRequest(offlinePlayer, vote.getServiceName(), vote.getAddress(), Long.parseLong(vote.getTimeStamp()));
+        plugin.getVPlayerManager().processVoteRequest(offlinePlayer, vote.getServiceName(), vote.getAddress(), timestamp(vote.getTimeStamp()));
         plugin.getVPlayerManager().applyServiceCooldown(uuid, vote.getServiceName());
+    }
+
+    // Several vote-site forwarders send an empty or non-numeric timestamp; parsing it threw after the vote was counted
+    // and before its reward and cooldown, so such a vote stands for now, in epoch seconds as sites send it.
+    private static long timestamp(String raw) {
+        try {
+            return Long.parseLong(raw.trim());
+        } catch (RuntimeException invalid) {
+            return System.currentTimeMillis() / 1000L;
+        }
     }
 
     /**
